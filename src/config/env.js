@@ -10,3 +10,14 @@
 //     jwtSecret: process.env.JWT_SECRET || 'your-secret-key',
 //     nodeEnv: process.env.NODE_ENV || 'development',
 // };
+
+require('dotenv').config();  // .env 파일에서 환경 변수를 로드
+
+module.exports = {
+    port: process.env.PORT || 3000,
+    dbUser: process.env.DB_USER || 'your_username',
+    dbHost: process.env.DB_HOST || 'localhost',
+    dbName: process.env.DB_NAME || 'your_db_name',
+    dbPassword: process.env.DB_PASSWORD || 'your_password',
+    dbPort: process.env.DB_PORT || 5432,
+};
