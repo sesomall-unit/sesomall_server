@@ -2,17 +2,15 @@ console.log("$$server-start");
 const express = require('express');
 
 const config = require('./config/env');
-const { connectDB } = require('./config/db');
-
 const loaders = require('./loaders');
-
 // 데이터베이스 연결
+const { connectDB } = require('./config/db');
 connectDB();
 
 const app = express();
 
 // 서버 초기화 관련 로더 로드
-loaders.expressLoader(app);
+// loaders.expressLoader(app);
 
 // 기본적인 미들웨어 설정
 app.use(express.json());  // JSON 요청 본문을 파싱
@@ -32,7 +30,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-// app.listen(config.port, () => {
-//     console.log(`Server is running on http://localhost:${config.port}`);
-// });
