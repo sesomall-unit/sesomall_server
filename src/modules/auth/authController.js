@@ -51,9 +51,6 @@ const login = async (req, res) => {
         console.error('Error during login:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
-
-
-
 };
 
 // 액세스 토큰 갱신 함수
@@ -83,6 +80,7 @@ const refreshAccessToken = async (req, res) => {
         });
 
         res.json({ accessToken });
+
     } catch (error) {
         console.error('Error during token refresh:', error);
         return res.status(403).json({ message: 'Invalid Refresh Token' });

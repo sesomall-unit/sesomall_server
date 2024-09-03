@@ -1,17 +1,17 @@
 const express = require('express');
+
+//검증 미들웨어
+const authMiddleware = require('../../middlewares/authMiddleware')
+
 const userRoutes = require('../../modules/user/userRoutes');
 const authRoutes = require('../../modules/auth/authRoutes')
-// const productRoutes = require('../modules/product/productRoutes');
 
 const router = express.Router();
 
+//인증 필요한 라우트
+router.use('/user', authMiddleware, userRoutes);
 
-// /api/v1/user 관련 라우터
-router.use('/user', userRoutes);
-
+//인증 필요없는 라우트
 router.use('/auth', authRoutes)
-
-// /api/v1/product 관련 라우터
-// router.use('/product', productRoutes);
 
 module.exports = router;
