@@ -5,7 +5,7 @@ const authMiddleware = (req, res, next) => {
 
     // Authorization 헤더가 없거나 Bearer 토큰이 없으면 접근 거부
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
+        return res.error('Access denied. No token provided.', 401);  // 공통 오류 응답 사용
     }
 
     const token = authHeader.split(' ')[1];
@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
         next();  // 다음 미들웨어 또는 라우트로 진행
     } catch (error) {
         console.error('Invalid token:', error.message);
-        return res.status(403).json({ message: 'Invalid token.' });
+        res.error('Invalid token.', 403);  // 공통 오류 응답 사용
     }
 };
 

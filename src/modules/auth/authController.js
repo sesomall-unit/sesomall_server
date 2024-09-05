@@ -26,13 +26,13 @@ const login = async (req, res) => {
         const user = await User.findOne({ where: { email } });
 
         if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.error('Invalid credentials', 401);  // 공통 오류 응답 처리
         }
 
         // 비밀번호 확인
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.error('Invalid credentials', 401);  // 공통 오류 응답 처리
         }
 
         const { accessToken, refreshToken } = generateTokens(user);
@@ -46,10 +46,10 @@ const login = async (req, res) => {
         });
 
         // 액세스 토큰을 응답 본문으로 전달
-        res.json({ accessToken });
+        res.success({ accessToken });  // 공통 성공 응답 처리
     } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.error('Internal server error', 500);  // 공통 오류 응답 처리
     }
 };
 
@@ -58,7 +58,7 @@ const refreshAccessToken = async (req, res) => {
     const { refreshToken } = req.cookies; // 쿠키에서 리프레시 토큰 가져오기
 
     if (!refreshToken) {
-        return res.status(401).json({ message: 'Refresh Token is required' });
+        return res.error('Refresh Token is required', 401);  // 공통 오류 응답 처리
     }
 
     try {
@@ -66,7 +66,7 @@ const refreshAccessToken = async (req, res) => {
         const user = await User.findByPk(userPayload.id);
 
         if (!user) {
-            return res.status(401).json({ message: 'User not found' });
+            return res.error('User not found', 401);  // 공통 오류 응답 처리
         }
 
         const { accessToken, refreshToken: newRefreshToken } = generateTokens(user);
@@ -79,11 +79,11 @@ const refreshAccessToken = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7일간 유효
         });
 
-        res.json({ accessToken });
+        res.success({ accessToken });  // 공통 성공 응답 처리
 
     } catch (error) {
         console.error('Error during token refresh:', error);
-        return res.status(403).json({ message: 'Invalid Refresh Token' });
+        return res.error('Invalid Refresh Token', 403);  // 공통 오류 응답 처리
     }
 };
 

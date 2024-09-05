@@ -1,8 +1,8 @@
 console.log("$$server-start");
 const express = require('express');
-
 const config = require('./config/env');
 const loaders = require('./loaders');
+const responseMiddleware = require('./middlewares/responseMiddleware');
 
 //cookie-parser 설정
 const cookieParser = require('cookie-parser');
@@ -20,6 +20,10 @@ const app = express();
 app.use(express.json());  // JSON 요청 본문을 파싱
 app.use(express.urlencoded({ extended: true }));  // URL-encoded 요청 본문을 파싱
 app.use(cookieParser());
+
+// 공통 응답 미들웨어
+app.use(responseMiddleware);
+
 
 // API 라우터 등록
 const apiRoutes = require('./api/v1/apiRoutes');  // 또는 ./api/v2/apiRoutes
