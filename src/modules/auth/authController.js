@@ -26,13 +26,14 @@ const login = async (req, res) => {
         const user = await User.findOne({ where: { email } });
 
         if (!user) {
-            return res.error('Invalid credentials', 401);  // 공통 오류 응답 처리
+            return res.error('계정 정보가 존재하지 않습니다.', 401);  // 공통 오류 응답 처리
         }
 
         // 비밀번호 확인
         const isMatch = await bcrypt.compare(password, user.password);
+
         if (!isMatch) {
-            return res.error('Invalid credentials', 401);  // 공통 오류 응답 처리
+            return res.error('비밀번호가 일치하지 않습니다.', 401);  // 공통 오류 응답 처리
         }
 
         const { accessToken, refreshToken } = generateTokens(user);
@@ -46,10 +47,10 @@ const login = async (req, res) => {
         });
 
         // 액세스 토큰을 응답 본문으로 전달
-        res.success({ accessToken });  // 공통 성공 응답 처리
+        return res.success({ accessToken });  // 공통 성공 응답 처리
     } catch (error) {
         console.error('Error during login:', error);
-        res.error('Internal server error', 500);  // 공통 오류 응답 처리
+        return res.error('Internal server error', 500);  // 공통 오류 응답 처리
     }
 };
 
@@ -66,7 +67,7 @@ const refreshAccessToken = async (req, res) => {
         const user = await User.findByPk(userPayload.id);
 
         if (!user) {
-            return res.error('User not found', 401);  // 공통 오류 응답 처리
+            return res.error('User not found', 404);  // 공통 오류 응답 처리
         }
 
         const { accessToken, refreshToken: newRefreshToken } = generateTokens(user);
@@ -79,7 +80,7 @@ const refreshAccessToken = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7일간 유효
         });
 
-        res.success({ accessToken });  // 공통 성공 응답 처리
+        return res.success({ accessToken });  // 공통 성공 응답 처리
 
     } catch (error) {
         console.error('Error during token refresh:', error);

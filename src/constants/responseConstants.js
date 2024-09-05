@@ -1,27 +1,23 @@
 module.exports = {
     SUCCESS: {
-        code: 200,
+        status: 200,
         message: 'Success'
     },
     BAD_REQUEST: {
-        code: 400,
+        status: 400,
         message: 'Bad Request'
     },
     UNAUTHORIZED: {
-        code: 401,
+        status: 401,
         message: 'Unauthorized'
     },
     FORBIDDEN: {
-        code: 403,
+        status: 403,
         message: 'Forbidden'
     },
     NOT_FOUND: {
-        code: 404,
+        status: 404,
         message: 'Not Found'
-    },
-    INTERNAL_SERVER_ERROR: {
-        code: 500,
-        message: 'Internal Server Error'
     },
     SERVER_ERROR: {
         status: 500,
