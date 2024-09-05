@@ -23,10 +23,10 @@ const User = sequelize.define('User', {
         allowNull: false,
         unique: true,
     },
-    user_role: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    // user_role: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false,
+    // },
     // 다른 필드들...
 }, {
     tableName: 'users', // 데이터베이스의 테이블 이름을 'users'로 명시적으로 지정
