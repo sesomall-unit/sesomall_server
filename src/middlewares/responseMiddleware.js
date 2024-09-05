@@ -1,5 +1,6 @@
 const responseMessages = require('../constants/responseConstants');
 
+//미들웨어 response 공통 로직 처리
 module.exports = (req, res, next) => {
     res.success = (data, message = responseMessages.SUCCESS.message, status = responseMessages.SUCCESS.status) => {
         res.status(status).json({
