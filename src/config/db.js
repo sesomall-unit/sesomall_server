@@ -26,11 +26,14 @@
 
 // Sequelize
 const { Sequelize } = require('sequelize');
+const pg = require('pg');  // PostgreSQL 클라이언트 명시적으로 불러오기
 const config = require('./env');
 
 const sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPassword, {
     host: config.dbHost,
     dialect: config.dbDIALECT,  // 예: 'postgres'
+    dialectModule: pg,  // 명시적으로 PostgreSQL 클라이언트 전달
+
 });
 
 const connectDB = async () => {
