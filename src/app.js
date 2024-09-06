@@ -1,4 +1,4 @@
-console.log("$$server-start");
+console.log("$$server-start2");
 const express = require('express');
 const config = require('./config/env');
 const loaders = require('./loaders');
@@ -9,10 +9,10 @@ const cookieParser = require('cookie-parser');
 
 // 데이터베이스 연결
 const { connectDB } = require('./config/db');
-connectDB();
 
+
+connectDB()
 const app = express();
-
 // 서버 초기화 관련 로더 로드
 // loaders.expressLoader(app);
 
@@ -28,6 +28,7 @@ app.use(responseMiddleware);
 // API 라우터 등록
 const apiRoutes = require('./api/v1/apiRoutes');  // 또는 ./api/v2/apiRoutes
 app.use('/api/v1', apiRoutes);  // API 버전 1 라우터를 등록
+
 
 // 기본 라우트
 app.get('/', (req, res) => {
