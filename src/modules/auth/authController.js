@@ -54,6 +54,18 @@ const login = async (req, res) => {
     }
 };
 
+// 로그아웃 함수
+const logout = (req, res) => {
+    // 리프레시 토큰 쿠키 삭제
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict'
+    });
+
+    return res.success({ message: 'Logout successful' });  // 공통 성공 응답 처리
+};
+
 // 액세스 토큰 갱신 함수
 const refreshAccessToken = async (req, res) => {
     const { refreshToken } = req.cookies; // 쿠키에서 리프레시 토큰 가져오기
@@ -91,4 +103,5 @@ const refreshAccessToken = async (req, res) => {
 module.exports = {
     login,
     refreshAccessToken,
+    logout
 };
