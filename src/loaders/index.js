@@ -17,7 +17,8 @@ const expressLoader = (app) => {
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
     app.use(cors({
-        origin: 'http://localhost:3000' // 프론트엔드 서버 주소
+        origin: 'http://localhost:3000', // 프론트엔드 서버 주소
+        credentials: true, // 쿠키를 첨부해서 보내는 요청 허용
     }));
 
     // 공통 응답 미들웨어

@@ -5,6 +5,49 @@ const User = require('../user/userModel');  // Sequelize User 모델
 
 dotenv.config();
 
+// 회원가입 함수
+const signup = async (req, res) => {
+    const { email, password, userName, birthdate, phoneNumber, address } = req.body;
+
+    try {
+        // 이메일 중복 확인
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return res.error('이미 존재하는 이메일입니다.', 409);  // 공통 오류 응답 처리
+        }
+
+        // 비밀번호 해싱
+        const hashedPassword = await bcrypt.hash(password, 10);  // bcrypt의 10 라운드 해싱
+
+        // 새로운 사용자 생성
+        const newUser = await User.create({
+            email,
+            password: hashedPassword,  // 해시된 비밀번호 저장
+            userName,
+            birthdate,
+            phoneNumber,
+            address,
+        });
+
+        // 회원가입 성공 응답
+        return res.success({
+            message: '회원가입이 완료되었습니다.',
+            user: {
+                id: newUser.id,
+                email: newUser.email,
+                userName: newUser.userName,
+                birthdate: newUser.birthdate,
+                phoneNumber: newUser.phoneNumber,
+                address: newUser.address,
+            }
+        });
+    } catch (error) {
+        console.error('Error during signup:', error);
+        return res.error('Internal server error', 500);  // 공통 오류 응답 처리
+    }
+};
+
+// 토큰
 const generateTokens = (user) => {
     const accessToken = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
@@ -101,6 +144,7 @@ const refreshAccessToken = async (req, res) => {
 };
 
 module.exports = {
+    signup,
     login,
     refreshAccessToken,
     logout
