@@ -4,8 +4,13 @@ const userService = require('./userService');
 const getAllUsers = async (req, res) => {
     try {
         const users = await userService.getAllUsers();
-        res.status(200).json(users);
-        res.success(users);  // 성공 응답 처리
+
+        // res.status(200).json(users);
+        // res.success(users);  // 성공 응답 처리
+        if (users) {
+            // 성공 응답을 한 번만 전송
+            res.success(users); // 또는 res.status(200).json(users);
+        }
     } catch (error) {
         console.error('Error in getUsers??????', error);
         res.error('Failed to retrieve users');  // 오류 응답 처리

@@ -22,5 +22,15 @@ module.exports = {
     SERVER_ERROR: {
         status: 500,
         message: 'Internal Server Error'
+    },
+    TOKEN_EXPIRED:{
+        status: 401,
+        customCode: 1001,
+        message: 'Access token expired'
+    },
+    REFRESH_TOKEN_EXPIRED:{
+        status: 401,
+        customCode: 1003,
+        message: 'Refresh token expired'
     }
 };
