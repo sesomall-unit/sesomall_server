@@ -5,15 +5,18 @@ const getProductList = async (priceArr, product_name)=> {
     try {
         const whereClause = {};
 
-        // 상품명이 있을 경우 필터링 추가
+        // 상품명이 있을 경우 Like 절로 필터링 추가
         if (product_name) {
-            whereClause.product_name = product_name;
+            whereClause.product_name = {
+                [Op.like]: `%${product_name}%` // 부분 일치하는 상품명 검색
+            };
         }
+
 
         // 가격이 문자열 배열 => 숫자로 변환 및 NaN 제거
         const prices = priceArr.map(price => parseInt(price, 10)).filter(price => !isNaN(price));
 
-        console.log("prices",prices)
+        // console.log("prices",prices)
 
         // 가격 범위 필터링 추가
         if (prices.length > 0) {
