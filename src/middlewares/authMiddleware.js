@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization; // access token
+  const authHeader = req.headers.authorization; // access tokenap
   const refreshToken = req.cookies.refreshToken;
 
   console.log("authHeader토큰", authHeader);
